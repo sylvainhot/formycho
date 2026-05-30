@@ -1,0 +1,317 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>A Little Question For You</title>
+
+<style>
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:'Segoe UI',sans-serif;
+}
+
+body{
+    background:#0f172a;
+    color:white;
+    min-height:100vh;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    overflow:hidden;
+}
+
+.card{
+    width:700px;
+    max-width:90%;
+    background:#1e293b;
+    padding:35px;
+    border-radius:25px;
+    text-align:center;
+    box-shadow:0 0 30px rgba(255,255,255,.1);
+    z-index:2;
+}
+
+h1{
+    margin-bottom:15px;
+}
+
+.progress-box{
+    width:100%;
+    height:18px;
+    background:#334155;
+    border-radius:30px;
+    overflow:hidden;
+    margin:25px 0;
+}
+
+#progress{
+    width:0%;
+    height:100%;
+    background:#ff4d8d;
+    transition:.5s;
+}
+
+button{
+    border:none;
+    padding:12px 25px;
+    margin:10px;
+    border-radius:30px;
+    cursor:pointer;
+    font-size:16px;
+}
+
+.yes{
+    background:#ff4d8d;
+    color:white;
+}
+
+.no{
+    background:#475569;
+    color:white;
+}
+
+.hidden{
+    display:none;
+}
+
+#letter{
+    max-height:80vh;
+    overflow-y:auto;
+}
+
+#letter h1{
+    color:#ff77aa;
+}
+
+#letter p{
+    line-height:1.9;
+    font-size:18px;
+    color:#e2e8f0;
+}
+
+.heart{
+    position:fixed;
+    top:-30px;
+    font-size:28px;
+    animation:fall linear forwards;
+    pointer-events:none;
+}
+
+@keyframes fall{
+    from{
+        transform:translateY(-50px);
+    }
+    to{
+        transform:translateY(110vh);
+    }
+}
+</style>
+</head>
+<body>
+
+<!-- PAGE 1 -->
+<div class="card" id="confession">
+
+    <h1 id="title">Loading My Feelings...</h1>
+
+    <div class="progress-box">
+        <div id="progress"></div>
+    </div>
+
+    <p id="status">Initializing...</p>
+
+    <div id="question" class="hidden">
+
+        <h2>System Report Complete!</h2>
+
+        <br>
+
+        <p>
+            After analyzing thousands of thoughts,
+            millions of butterflies,
+            and countless moments spent smiling at my phone...
+        </p>
+
+        <br>
+
+        <h3>
+            Would you let me be more than just your admirer?
+        </h3>
+
+        <br>
+
+        <button class="yes" onclick="showLetter()">
+            Yes
+        </button>
+
+        <button class="no" id="noBtn">
+            No
+        </button>
+
+    </div>
+
+</div>
+
+<!-- PAGE 2 -->
+<div class="card hidden" id="letter">
+
+    <h1>You Said Yes!</h1>
+
+    <p>
+        I don't even know where to start.
+
+        <br><br>
+
+        Maybe with a simple thank you.
+
+        Thank you for giving me a chance.
+        Thank you for being someone who unknowingly made
+        ordinary days feel special.
+
+        <br><br>
+
+        Before this moment, you were already my favorite
+        notification, my favorite conversation,
+        and the person who could instantly improve my mood.
+
+        <br><br>
+
+        There were times when I stared at our chats,
+        smiling like an idiot for no reason.
+        There were moments when I wanted to tell you how I felt,
+        but my courage always disappeared at the worst time.
+
+        <br><br>
+
+        Yet somehow, here we are.
+
+        <br><br>
+
+        I can't promise perfection.
+        I can't promise that every day will be easy.
+
+        But I can promise that my feelings are genuine.
+
+        <br><br>
+
+        I want to celebrate your victories,
+        stay beside you when things get difficult,
+        listen to your random thoughts,
+        and make more memories with you.
+
+        <br><br>
+
+        If someday you feel unloved,
+        come back and read this again.
+
+        Because no matter how much time passes,
+        you'll always be someone incredibly precious to me.
+
+        <br><br>
+
+        Thank you for saying yes.
+
+    </p>
+
+</div>
+
+<script>
+
+const progress = document.getElementById("progress");
+const statusText = document.getElementById("status");
+const question = document.getElementById("question");
+const noBtn = document.getElementById("noBtn");
+
+const messages = [
+    "Scanning conversations...",
+    "Counting smiles...",
+    "Calculating butterflies...",
+    "Finding courage...",
+    "Preparing confession...",
+    "Almost there...",
+    "Feelings confirmed"
+];
+
+let percent = 0;
+let index = 0;
+
+const loading = setInterval(() => {
+
+    percent += 14;
+    progress.style.width = percent + "%";
+
+    if(index < messages.length){
+        statusText.innerText = messages[index];
+        index++;
+    }
+
+    if(percent >= 100){
+
+        clearInterval(loading);
+
+        setTimeout(() => {
+
+            document.querySelector(".progress-box").style.display = "none";
+            statusText.style.display = "none";
+
+            document.getElementById("title").innerText =
+            "Confession Ready";
+
+            question.classList.remove("hidden");
+
+        },1000);
+    }
+
+},900);
+
+noBtn.addEventListener("mouseover",()=>{
+
+    const x = Math.random() * (window.innerWidth - 100);
+    const y = Math.random() * (window.innerHeight - 50);
+
+    noBtn.style.position = "absolute";
+    noBtn.style.left = x + "px";
+    noBtn.style.top = y + "px";
+});
+
+function showLetter(){
+
+    document.getElementById("confession").classList.add("hidden");
+    document.getElementById("letter").classList.remove("hidden");
+
+    setInterval(createHeart,250);
+}
+
+function createHeart(){
+
+    const heart = document.createElement("div");
+
+    const emojis = [
+        "❤️","💖","💕","💗","💓","💞","🌷","✨"
+    ];
+
+    heart.innerHTML =
+        emojis[Math.floor(Math.random()*emojis.length)];
+
+    heart.classList.add("heart");
+
+    heart.style.left =
+        Math.random()*100 + "vw";
+
+    heart.style.animationDuration =
+        (Math.random()*4 + 3) + "s";
+
+    document.body.appendChild(heart);
+
+    setTimeout(()=>{
+        heart.remove();
+    },7000);
+}
+
+</script>
+
+</body>
+</html>
